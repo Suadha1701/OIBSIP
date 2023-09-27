@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+    
+    <style>
+        
+        html{
+            margin: 0%;
+            height: 100%;
+        }
+        
+        body{
+            margin: 0%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1{
+            text-align: center;
+            /* margin-bottom: 10%; */
+        }
+        
+        #tempbox{
+            /* border: 2px solid red; */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 80%;
+            width: 80%;
+        }
+
+        #left{
+            border: 2px solid black;
+            /* width: 30%; */
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            background-color: black;
+        }
+
+        img{
+            width: auto;
+        }
+        
+        #right{
+            border: 2px solid black;
+            width: 50%;
+            height: 100%;
+
+        }
+
+        form{
+            border: 2px solid black;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .formfields{
+            margin-top: 2%;
+        }
+
+        .buttons{
+            margin-top: 8%;
+        }
+
+        button{
+            background-color: gold;
+            /* color: white; */
+            margin-top: 20%;
+        }
+
+        p{
+            text-align: center;
+        }
+
+        #resultfield{
+            display: none;
+        }
+        
+        input[type=submit], input[type='reset']{
+            width: 70px;
+            background-color: black;
+            color: white;
+            border-radius: 20px;
+            border-color: gray;
+            /* transition: color,   background-color; */
+            -webkit-transition: background-color 0.5s linear, width 0.5s linear, color 0.5s linear, border-radius 0.5s linear;
+            -moz-transition: background-color 0.5s linear, width 0.5s linear, color 0.5s linear, border-radius 0.5s linear;
+            -o-transition: background-color 0.5s linear, width 0.5s linear, color 0.5s linear, border-radius 0.5s linear;
+            -ms-transition: background-color 0.5s linear, width 0.5s linear, color 0.5s linear, border-radius 0.5s linear;
+            transition: background-color 0.5s linear, width 0.5s linear, color 0.5s linear, border-radius 0.5s linear;
+        }
+
+        input[type=submit]:hover, input[type='reset']:hover{
+            cursor: pointer;
+            width: 80px;
+            background-color: gray;
+            color: black;
+            border-radius: 5px;
+            border-color: black;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <div id="tempbox">
+        <div id="left">
+            <img src="\temp.jpeg" alt="" srcset="">
+        </div>
+
+        <div id="right">
+            <form method="post" onsubmit="return validate()">
+            
+                <h1>Temperature&nbspConverter</h1>
+            
+                <div class="formfields">
+                    <p>Degrees</p>
+                    <input type="text" id="degrees">
+                </div>            
+            
+                <div class="formfields">
+                    <p>Input Scale</p>
+                    <select id="inputscale">
+                        <option value="1">Centigrade</option>
+                        <option value="2">Fahrenheit</option>
+                        <option value="3">Kelvin</option>
+                    </select>
+                </div>       
+
+                <div class="formfields">
+                    <p>Output Scale</p>
+                    <select id="outputscale">
+                        <option value="1">Centigrade</option>
+                        <option value="2">Fahrenheit</option>
+                        <option value="3">Kelvin</option>
+                    </select>
+                </div>       
+
+                <div class="formfields buttons">
+                    <input type="reset" value="Clear">
+                </div>            
+
+                <div class="formfields buttons">
+                    <input type="submit" value="Convert">
+                </div>            
+                
+                <div class="formfields" id="resultfield">
+                    <button id="inputdegrees">
+                    </button>
+                    =
+                    <button id="outputdegrees">
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function validate(){
+            var degrees=parseInt(document.getElementById("degrees").value);
+            var resultfield=document.getElementById("resultfield");
+            var inputdegrees=document.getElementById("inputdegrees");
+            var outputdegrees=document.getElementById("outputdegrees");
+            var inputscale=document.getElementById("inputscale");
+            var outputscale=document.getElementById("outputscale");
+            if(degrees=="" || degrees==null || isNaN(degrees)){
+                resultfield.style.display='none';
+                alert("Invalid temperature input!");
+                return false;
+            }
+            else{
+                
+                if(inputscale.value==outputscale.value){
+                    resultfield.style.display='none';
+                    alert("Input and Output scales can't be the same!");
+                }
+                else{
+                    resultfield.style.display='block';
+
+                    // C to F
+                    if(inputscale.value==1 && outputscale.value==2){
+                        inputdegrees.innerHTML=degrees + 'C';
+                        outputdegrees.innerHTML=Number(degrees*(9/5)+32).toFixed(2) + 'F';
+                    }
+                
+                    // C to K
+                    if(inputscale.value==1 && outputscale.value==3){
+                        
+                        inputdegrees.innerHTML=degrees + 'C';
+                        outputdegrees.innerHTML=Number(degrees+273.15).toFixed(2) + 'K';
+                    }
+
+                    // F to C
+                    if(inputscale.value==2 && outputscale.value==1){
+                        inputdegrees.innerHTML=degrees + 'F';
+                        outputdegrees.innerHTML=Number((degrees-32)*5/9).toFixed(2) + 'C';
+                    }
+
+                    // F to K
+                    if(inputscale.value==2 && outputscale.value==3){
+                        inputdegrees.innerHTML=degrees + 'F';
+                        outputdegrees.innerHTML=Number(((degrees-32)*5/9)+273.15).toFixed(2) + 'K';
+                    }
+
+                    // K to C
+                    if(inputscale.value==3 && outputscale.value==1){
+                        inputdegrees.innerHTML=degrees + 'K';
+                        outputdegrees.innerHTML=Number(degrees-273.15).toFixed(2) + 'C';
+                    }
+
+                    // K to F
+                    if(inputscale.value==3 && outputscale.value==2){
+                        inputdegrees.innerHTML=degrees + 'K';
+                        //outputdegrees.innerHTML=((degrees.value-273.15)*9/5)+32 + 'F';
+                        outputdegrees.innerHTML=Number(((degrees-273.15)*9/5)+32).toFixed(2) + 'F';
+                    }
+                }
+                return false;
+            }
+        }    </script>
+</body>
+</html>
